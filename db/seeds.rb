@@ -4,6 +4,7 @@ chicken_tikka.ingredients.create(:name => "Rice")
 chicken_tikka.ingredients.create(:name => "Chicken breast")
 chicken_tikka.ingredients.create(:name => "Masala")
 chicken_tikka.creator = tom
+chicken_tikka.save
 
 
 victoria = User.create(:username => "vgbegg", :email => "victoria@gmail.com", :password => "wilson")
@@ -11,5 +12,7 @@ bbq_chicken = Recipe.create(:name => "BBQ Chicken", :directions => "Season the c
 bbq_chicken.ingredients.create(:name => "BBQ sauce")
 bbq_chicken.ingredients.create(:name => "Corn")
 bbq_chicken.ingredients << Ingredient.find_by(:name => "Chicken breast")
+bbq_chicken.creator = victoria
+bbq_chicken.save
 
 
