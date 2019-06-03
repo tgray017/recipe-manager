@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(version: 2019_06_02_153609) do
     t.string "name"
   end
 
-  create_table "ingredients_recipes", id: false, force: :cascade do |t|
+  create_table "ingredients_recipes", force: :cascade do |t|
     t.integer "recipe_id"
     t.integer "ingredient_id"
     t.integer "quantity"
