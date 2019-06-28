@@ -13,7 +13,7 @@ class UsersController < ApplicationController
       #set a flash message - please fill out all fields
       redirect to '/signup'
     elsif !!User.find_by(:username => params[:username])
-      #set a flash message - user already exists or not all fields are filled out
+      #set a flash message - user already exists - please go to our login page if you already have an account
       redirect to '/signup'
     else
       user = User.create(:username => params[:username], :email => params[:email], :password => params[:password])
@@ -31,14 +31,24 @@ class UsersController < ApplicationController
   end
   
   post '/login' do
-    user = User.find_by(:username => params[:username])
-    if !!user.authenticate(params[:password])
-      session[:user_id] = user.id
-      redirect to '/recipes'
-    else
-      #set a flash message - wrong password
+    if invalid_login?
+      #set a flash message - please fill out all fields
       redirect to '/login'
+    else
+      user = User.find_by(:username => params[:username])
+      if !!user.authenticate(params[:password])
+        session[:user_id] = user.id
+        redirect to '/recipes'
+      else
+        #set a flash message - wrong password
+        redirect to '/login'
+      end
     end
+  end
+  
+  get '/logout' do
+    session.clear
+    redirect to '/login'
   end
   
   
