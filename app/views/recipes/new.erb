@@ -1,0 +1,44 @@
+<h3>Create a new recipe!</h3>
+<form action="/new" method="post">
+  <p><label for="recipe[name]">Recipe name: </label><input type="text" name="recipe[name]"></p>
+  <h4>Add your ingredients</h4>
+  <table id="ingredient_table">
+    <th>Ingredient</th>
+    <th>Quantity</th>
+    <th>Unit</th>
+    <tr>
+      <td><input type="text" name="recipe[ingredients][][name]"></td>
+      <td><input type="text" name="recipe[ingredients][][quantity]"></td>
+      <td><input type="text" name="recipe[ingredients][][unit]"></td>
+    </tr>
+    <tr>
+      <td><input type="text" name="recipe[ingredients][][name]"></td>
+      <td><input type="text" name="recipe[ingredients][][quantity]"></td>
+      <td><input type="text" name="recipe[ingredients][][unit]"></td>
+    </tr>
+    <tr>
+      <td><input type="text" name="recipe[ingredients][][name]"></td>
+      <td><input type="text" name="recipe[ingredients][][quantity]"></td>
+      <td><input type="text" name="recipe[ingredients][][unit]"></td>
+    </tr>
+  </table>
+  <button type="button" onclick="addIngredient()">Add ingredients</button>
+
+  
+  <p><label for="recipe[directions]">Directions: </label><textarea name="recipe[directions]" rows="10" cols="30"></textarea></p>
+  <p><label for="recipe[total_prep_time]">Total Prep Time: </label><input type="text" name="recipe[total_prep_time]"></p>
+  <input type="submit" value="Create Recipe">
+</form>
+
+
+<script>
+function addIngredient() {
+  $("#ingredient_table").append(
+      "<tr>" +
+        "<td><input type=\"text\" name=\"recipe[ingredients][][name]\"></td>" +
+        "<td><input type=\"text\" name=\"recipe[ingredients][][quantity]\"></td>" +
+        "<td><input type=\"text\" name=\"recipe[ingredients][][unit]\"></td>" +
+      "</tr>"
+  );
+}
+</script>

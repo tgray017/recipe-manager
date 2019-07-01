@@ -8,6 +8,10 @@ class RecipesController < ApplicationController
     end
   end
   
+  get '/recipes/new' do
+    erb :"recipes/new"  
+  end
+  
   get '/recipes/:id' do
     if User.logged_in?(session)
       if !!Recipe.find(params[:id])
@@ -21,5 +25,8 @@ class RecipesController < ApplicationController
       redirect to '/login'
     end
   end
+  
+
+  
   
 end
