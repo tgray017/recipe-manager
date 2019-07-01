@@ -11,7 +11,7 @@ class RecipesController < ApplicationController
   get '/recipes/:id' do
     if User.logged_in?(session)
       if !!Recipe.find(params[:id])
-        recipe = Recipe.find(params[:id])
+        @recipe = Recipe.find(params[:id])
         erb :"recipes/show"
       else
         #set a flash message - recipe doesn't exist
