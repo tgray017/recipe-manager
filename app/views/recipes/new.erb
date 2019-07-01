@@ -22,7 +22,7 @@
       <td><input type="text" name="recipe[ingredients][][unit]"></td>
     </tr>
   </table>
-  <button type="button" onclick="addIngredient()">Add ingredients</button>
+  <button type="button" onclick="addIngredient()">Add ingredient</button>
 
   
   <p><label for="recipe[directions]">Directions: </label><textarea name="recipe[directions]" rows="10" cols="30"></textarea></p>
@@ -30,7 +30,7 @@
   <input type="submit" value="Create Recipe">
 </form>
 
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script>
 function addIngredient() {
   $("#ingredient_table").append(
