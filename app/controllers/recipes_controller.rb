@@ -26,6 +26,16 @@ class RecipesController < ApplicationController
     end
   end
   
+  post '/recipes' do
+
+    recipe = Recipe.create(:name => params[:recipe][:name], :creator => User.current_user(session), :directions => params[:recipe][:directions], :total_prep_time => params[:recipe][:total_prep_time])
+    params[:recipe][:ingredients].each do |i|
+      binding.pry
+      ingredient = Ingredient.create(:name => i[:name], :quantity => i[:quantity], :unit => i[:unit])
+    end
+    binding.pry
+  end
+  
 
   
   
