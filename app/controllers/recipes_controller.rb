@@ -9,7 +9,11 @@ class RecipesController < ApplicationController
   end
   
   get '/recipes/new' do
-    erb :"recipes/new"  
+    if User.logged_in?(session)
+      erb :"recipes/new"
+    else
+      redirect to '/login'
+    end
   end
   
   get '/recipes/:id' do
@@ -35,8 +39,37 @@ class RecipesController < ApplicationController
       params[:recipe][:ingredients].each do |i|
         recipe.ingredients.create(:name => i[:name], :quantity => i[:quantity], :unit => i[:unit]) unless empty_ingredient?(i)
       end
+      redirect to "/recipes/#{recipe.id}"
     end
   end
+  
+  get '/recipes/:id/edit' do
+    @recipe = Recipe.find(params[:id])
+    if !User.logged_in?(session)
+      redirect to '/login'
+    elsif @recipe.creator != User.current_user(session)
+      #set flash message - this is not your recipe
+      redirect to '/recipes/:id'
+    else
+      erb :"recipes/edit"
+    end
+  end
+    
+  patch '/recipes/:id' do
+    if invalid_recipe?
+      #set flash message - make sure your recipe has a name, directions, total prep time, and at least one ingredient with a quantity
+      redirect to '/recipes/:id/edit'
+    else
+      recipe = Recipe.find(params[:id])
+      binding.pry
+      recipe.update
+      redirect to '/recipes/:id'
+    end
+  end
+  
+  
+  
+  
   
   
   ##### Helper methods #####
