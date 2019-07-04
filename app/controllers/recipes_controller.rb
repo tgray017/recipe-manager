@@ -44,25 +44,27 @@ class RecipesController < ApplicationController
   end
   
   get '/recipes/:id/edit' do
-    @recipe = Recipe.find(params[:id])
-    if !User.logged_in?(session)
-      redirect to '/login'
-    elsif @recipe.creator != User.current_user(session)
-      #set flash message - this is not your recipe
-      redirect to '/recipes/:id'
+    if User.logged_in?(session)
+      if !!Recipe.find(params[:id]) && Recipe.find(params[:id]).creator == User.current_user(session)
+        @recipe = Recipe.find(params[:id])
+        erb :"recipes/edit"
+      else
+        #set flash message - recipe does not or does not belong to you
+        redirect to '/recipes'
+      end
     else
-      erb :"recipes/edit"
+      redirect to '/login'
     end
   end
     
   patch '/recipes/:id' do
+    @recipe = Recipe.find(params[:id])
     if invalid_recipe?
       #set flash message - make sure your recipe has a name, directions, total prep time, and at least one ingredient with a quantity
-      redirect to '/recipes/:id/edit'
+      redirect to "/recipes/#{@recipe.id}/edit"
     else
-      recipe = Recipe.find(params[:id])
       binding.pry
-      recipe.update
+      @recipe.update
       redirect to '/recipes/:id'
     end
   end

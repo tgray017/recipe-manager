@@ -9,9 +9,9 @@
     <th>Unit</th>
     <%@recipe.ingredients.each do |i|%>
       <tr>
-        <td><input type="text" name="recipe[ingredients][][name]" value="<%=i.name%>"></td>
-        <td><input type="text" name="recipe[ingredients][][quantity]" value="<%=i.quantity%>"></td>
-        <td><input type="text" name="recipe[ingredients][][unit]" value="<%=i.unit%>"></td>
+        <td><input type="text" name="recipe[ingredients_attributes][][name]" value="<%=i.name%>"></td>
+        <td><input type="text" name="recipe[ingredients_attributes][][quantity]" value="<%=i.quantity%>"></td>
+        <td><input type="text" name="recipe[ingredients_attributes][][unit]" value="<%=i.unit%>"></td>
       </tr>
     <%end%>
   </table>
@@ -28,9 +28,9 @@
 function addIngredient() {
   $("#ingredient_table").append(
       "<tr>" +
-        "<td><input type=\"text\" name=\"recipe[ingredients][][name]\"></td>" +
-        "<td><input type=\"text\" name=\"recipe[ingredients][][quantity]\"></td>" +
-        "<td><input type=\"text\" name=\"recipe[ingredients][][unit]\"></td>" +
+        "<td><input type=\"text\" name=\"recipe[ingredients_attributes][][name]\"></td>" +
+        "<td><input type=\"text\" name=\"recipe[ingredients_attributes][][quantity]\"></td>" +
+        "<td><input type=\"text\" name=\"recipe[ingredients_attributes][][unit]\"></td>" +
       "</tr>"
   );
 }
