@@ -63,14 +63,10 @@ class RecipesController < ApplicationController
       #set flash message - make sure your recipe has a name, directions, total prep time, and at least one ingredient with a quantity
       redirect to "/recipes/#{@recipe.id}/edit"
     else
-      binding.pry
-      @recipe.update
-      redirect to '/recipes/:id'
+      @recipe.update(params[:recipe])
+      redirect to "/recipes/#{@recipe.id}"
     end
   end
-  
-  
-  
   
   
   
@@ -81,7 +77,7 @@ class RecipesController < ApplicationController
   end
   
   def invalid_ingredients?
-    params[:recipe][:ingredients].any? {|i| !empty_ingredient?(i) && (i[:name].empty? || i[:quantity].empty?)} || params[:recipe][:ingredients].all? {|i| i[:name].empty?}
+    params[:recipe][:ingredients_attributes].any? {|i| !empty_ingredient?(i) && (i[:name].empty? || i[:quantity].empty?)} || params[:recipe][:ingredients_attributes].all? {|i| i[:name].empty?}
   end
   
   def empty_ingredient?(ingredient)
@@ -89,6 +85,4 @@ class RecipesController < ApplicationController
   end
   
 
-  
-  
 end
