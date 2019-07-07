@@ -36,7 +36,7 @@ class RecipesController < ApplicationController
       redirect to '/recipes/new'
     else
       recipe = Recipe.create(:name => params[:recipe][:name], :creator => User.current_user(session), :directions => params[:recipe][:directions], :total_prep_time => params[:recipe][:total_prep_time])
-      params[:recipe][:ingredients].each do |i|
+      params[:recipe][:ingredients_attributes].each do |i|
         recipe.ingredients.create(:name => i[:name], :quantity => i[:quantity], :unit => i[:unit]) unless empty_ingredient?(i)
       end
       redirect to "/recipes/#{recipe.id}"
@@ -44,12 +44,12 @@ class RecipesController < ApplicationController
   end
   
   get '/recipes/:id/edit' do
+    @recipe = Recipe.find(params[:id])
     if User.logged_in?(session)
-      if !!Recipe.find(params[:id]) && Recipe.find(params[:id]).creator == User.current_user(session)
-        @recipe = Recipe.find(params[:id])
+      if !!@recipe && User.current_user(session).recipes.include?(@recipe)
         erb :"recipes/edit"
       else
-        #set flash message - recipe does not or does not belong to you
+        #set flash message - recipe does not exist or does not belong to you
         redirect to '/recipes'
       end
     else

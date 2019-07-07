@@ -1,6 +1,6 @@
 <h2>All Recipes</h2>
 <%Recipe.all.each do |r|%>
-<h3><%=r.name%></h3>
+<h3><a href="/recipes/<%=r.id%>"><%=r.name%></a></h3>
 Total prep time: <%=r.total_prep_time%><br/>
 <i>Recipe by: <%=r.creator.username%></i>
 <%end%>
