@@ -36,11 +36,11 @@ class UsersController < ApplicationController
       redirect to '/login'
     else
       user = User.find_by(:username => params[:username])
-      if !!user.authenticate(params[:password])
+      if !!user && !!user.authenticate(params[:password])
         session[:user_id] = user.id
         redirect to '/recipes'
       else
-        #set a flash message - wrong password
+        #set a flash message - wrong password username combo 
         redirect to '/login'
       end
     end
@@ -49,6 +49,11 @@ class UsersController < ApplicationController
   get '/logout' do
     session.clear
     redirect to '/login'
+  end
+  
+  get '/users/:id' do
+    @user = User.find(params[:id])
+    erb :"users/show"
   end
   
   
