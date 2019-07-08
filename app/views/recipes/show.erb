@@ -11,6 +11,6 @@ Total prep time: <%=@recipe.total_prep_time%><br/>
 <h4>Directions</h4>
 <p><%=@recipe.directions%></p>
 
-<%if @recipe.creator == User.current_user(session)%>
+<%if !!@user && @recipe.creator == @user%>
   <a href="/recipes/<%=@recipe.id%>/edit">Edit recipe</a>
 <%end%>

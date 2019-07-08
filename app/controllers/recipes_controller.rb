@@ -2,10 +2,9 @@ class RecipesController < ApplicationController
   
   get '/recipes' do
     if User.logged_in?(session)
-      erb :"recipes/index"
-    else
-      redirect to '/login'
+      @user = User.current_user(session)
     end
+    erb :"recipes/index"
   end
   
   get '/recipes/new' do
@@ -18,15 +17,15 @@ class RecipesController < ApplicationController
   
   get '/recipes/:id' do
     if User.logged_in?(session)
-      if !!Recipe.find(params[:id])
-        @recipe = Recipe.find(params[:id])
-        erb :"recipes/show"
-      else
-        #set a flash message - recipe doesn't exist
-        redirect to '/recipes'
-      end
+      @user = User.current_user(session)
+    end
+    
+    if !!Recipe.find(params[:id])
+      @recipe = Recipe.find(params[:id])
+      erb :"recipes/show"
     else
-      redirect to '/login'
+      #set a flash message - recipe doesn't exist
+      redirect to '/recipes'
     end
   end
   

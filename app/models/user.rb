@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
   has_secure_password
   
   def self.current_user(session)
-    User.find(session[:user_id])
+    User.find(session[:user_id]) 
   end
   
   def self.logged_in?(session)

@@ -6,19 +6,19 @@ class Recipe < ActiveRecord::Base
   accepts_nested_attributes_for :ingredients
   
   
-  #need to override this method provided by accepts_nested_attributes_for to avoid duplicating ingredients and creating empty ingredients
+  # need to override this method provided by accepts_nested_attributes_for to avoid duplicating ingredients and creating empty ingredients
   
   def ingredients_attributes=(ingredients_attributes)
     self.ingredients.destroy_all
     ingredients_attributes.each do |ingredient_attribute|
+      # additional logic in the recipes controller rejects invalid ingredients
+    
       self.ingredients.create(ingredient_attribute) unless all_blank?(ingredient_attribute)
     end
   end
   
   def all_blank?(ingredient_attribute)
-    ingredient_attribute.all? do |k, v|
-      v.blank?
-    end
+    ingredient_attribute.all? {|k, v| v.blank?}
   end
   
 end

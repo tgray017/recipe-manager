@@ -1,6 +1,6 @@
-<%if User.logged_in?(session)%>
-  <h3>Welcome, <%=User.current_user(session).username%>!</h3>
-  <a href="/users/<%=User.current_user(session).id%>">See my recipes</a><br>
+<%if !!@user%>
+  <h3>Welcome, <%=@user.username%>!</h3>
+  <a href="/users/<%=@user.id%>">See my recipes</a><br>
   <a href="/recipes/new">Create a new recipe</a><br>
   <a href="/logout">Log out</a>
 <%else%>
