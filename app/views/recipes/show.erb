@@ -1,6 +1,6 @@
 <h3><%=@recipe.name%></h3>
 Total prep time: <%=@recipe.total_prep_time%><br/>
-<i>Recipe by: <%=@recipe.creator.username%></i>
+<i>Recipe by: <a href="/users/<%=@recipe.creator.id%>"><%=@recipe.creator.username%></a></i>
 
 <h4>Ingredients</h4>
 <ul>
