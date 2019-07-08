@@ -6,6 +6,14 @@ chicken_tikka.ingredients.create(:name => "Masala", :quantity => 3, :unit => "qu
 chicken_tikka.creator = tom
 chicken_tikka.save
 
+hamburger = Recipe.create(:name => "Cheeseburger", :directions => "Throw patty on the grill, flip every 5 min until cooked, place cheese on patty and wait until melted, assemble ingredients on bun", :total_prep_time => "15 min")
+hamburger.ingredients.create(:name => "Beef patty", :quantity => 1)
+hamburger.ingredients.create(:name => "Hamburger bun", :quantity => 1)
+hamburger.ingredients.create(:name => "Lettuce leaf", :quantity => 3)
+hamburger.ingredients.create(:name => "Ketchup", :quantity => 2, :unit => "tbsp")
+hamburger.ingredients.create(:name => "Cheese", :quantity => 2, :unit => "slices")
+hamburger.creator = tom
+hamburger.save
 
 victoria = User.create(:username => "vgbegg", :email => "victoria@gmail.com", :password => "wilson")
 bbq_chicken = Recipe.create(:name => "BBQ Chicken", :directions => "Season the chicken with salt and pepper, oil up the pan, put the chicken in, lather with BBQ sauce, cook till finished, boil the corn", :total_prep_time => "30 min")
