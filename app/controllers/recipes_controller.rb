@@ -21,6 +21,8 @@ class RecipesController < ApplicationController
       erb :"recipes/show"
     else
       #set a flash message - recipe doesn't exist
+      flash[:recipe_does_not_exist] = "That recipe does not exist, try again!"
+      #binding.pry
       redirect to '/recipes'
     end
   end
