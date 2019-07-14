@@ -21,8 +21,7 @@ class RecipesController < ApplicationController
       erb :"recipes/show"
     else
       #set a flash message - recipe doesn't exist
-      flash[:recipe_does_not_exist] = "That recipe does not exist, try again!"
-      #binding.pry
+      flash[:alert] = "That recipe does not exist, try selecting a different recipe."
       redirect to '/recipes'
     end
   end
@@ -31,6 +30,7 @@ class RecipesController < ApplicationController
     if User.logged_in?(session)
       if invalid_recipe?
         #set flash message - make sure your recipe has a name, directions, total prep time, and at least one ingredient with a quantity
+        flash[:alert] = "Invalid recipe! Make sure your recipe has a name, directions, total prep time, and at least one ingredient with a quantity."
         redirect to '/recipes/new'
       else
         recipe = Recipe.create(:name => params[:recipe][:name], :creator => User.current_user(session), :directions => params[:recipe][:directions], :total_prep_time => params[:recipe][:total_prep_time])
@@ -51,7 +51,7 @@ class RecipesController < ApplicationController
       if !!@recipe && User.current_user(session).recipes.include?(@recipe)
         erb :"recipes/edit"
       else
-        #set flash message - recipe does not exist or does not belong to you
+        flash[:alert] = "You cannot edit this recipe."
         redirect to '/recipes'
       end
     else
@@ -72,7 +72,7 @@ class RecipesController < ApplicationController
           redirect to "/recipes/#{@recipe.id}"
         end
       else
-        #set flash message - recipe does not exist or does not belong to you
+        flash[:alert] = "You cannot edit this recipe."
         redirect to '/recipes'
       end
     else
@@ -88,7 +88,7 @@ class RecipesController < ApplicationController
         @recipe.destroy
         redirect to "/recipes"
       else
-        #set flash message - recipe does not exist or does not belong to you
+        flash[:alert] = "You cannot edit this recipe."
         redirect to "/recipes/#{@recipe.id}"
       end
     else

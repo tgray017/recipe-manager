@@ -1,4 +1,6 @@
-* {
-  color: red;
-  text-align: center;
+span {
+  padding: 7px;
+  background-color: #f44336; /* Red */
+  color: white;
+  margin-bottom: 7px;
 }

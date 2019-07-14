@@ -2,15 +2,15 @@
 <html>
   <head>
     <title>Recipe Manager</title>
-    <link rel="stylesheet" href="/public/stylesheets/main.css">
+    <link rel="stylesheet" href="/stylesheets/main.css">
   </head>
   <body>
 
     <div class="container">
       <h1>Recipe Manager</h1>
       
-      <%if !!flash[:recipe_does_not_exist]%>
-        <p><%=flash[:recipe_does_not_exist]%></p>
+      <%if !!flash[:alert]%>
+        <p><span><%=flash[:alert]%></span></p>
       <%end%>
       
       <%= yield %>

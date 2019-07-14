@@ -11,9 +11,11 @@ class UsersController < ApplicationController
   post '/signup' do
     if invalid_signup?
       #set a flash message - please fill out all fields
+      flash[:alert] = "Please fill out all fields to sign up."
       redirect to '/signup'
     elsif !!User.find_by(:username => params[:username])
       #set a flash message - user already exists - please go to our login page if you already have an account
+      flash[:alert] = "That username is taken. Please choose a different username or navigate to our login page if you have an account."
       redirect to '/signup'
     else
       user = User.create(:username => params[:username], :email => params[:email], :password => params[:password])
@@ -32,7 +34,7 @@ class UsersController < ApplicationController
   
   post '/login' do
     if invalid_login?
-      #set a flash message - please fill out all fields
+      flash[:alert] = "Please fill out all fields to log in."
       redirect to '/login'
     else
       user = User.find_by(:username => params[:username])
@@ -40,7 +42,7 @@ class UsersController < ApplicationController
         session[:user_id] = user.id
         redirect to '/recipes'
       else
-        #set a flash message - wrong password username combo 
+        flash[:alert] = "We were unable to find an account with those credentials."
         redirect to '/login'
       end
     end
@@ -52,8 +54,13 @@ class UsersController < ApplicationController
   end
   
   get '/users/:id' do
-    @user = User.find(params[:id])
-    erb :"users/show"
+    @user = User.find_by_id(params[:id])
+    if !!@user
+      erb :"users/show"
+    else
+      flash[:alert] = "That user does not exist, try selecting a different user."
+      redirect to '/recipes'
+    end
   end
   
   
