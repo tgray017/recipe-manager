@@ -6,11 +6,8 @@ class RecipesController < ApplicationController
   end
   
   get '/recipes/new' do
-    if User.logged_in?(session)
-      erb :"recipes/new"
-    else
-      redirect to '/login'
-    end
+    redirect_if_not_logged_in
+    erb :"recipes/new"
   end
   
   get '/recipes/:id' do
@@ -62,21 +59,19 @@ class RecipesController < ApplicationController
   patch '/recipes/:id' do
     @recipe = Recipe.find_by_id(params[:id])
     
-    if User.logged_in?(session)
-      if !!@recipe && User.current_user(session).recipes.include?(@recipe)
-        if invalid_recipe?
-          #set flash message - make sure your recipe has a name, directions, total prep time, and at least one ingredient with a quantity
-          redirect to "/recipes/#{@recipe.id}/edit"
-        else
-          @recipe.update(params[:recipe])
-          redirect to "/recipes/#{@recipe.id}"
-        end
+    redirect_if_not_logged_in
+    
+    if !!@recipe && User.current_user(session).recipes.include?(@recipe)
+      if invalid_recipe?
+        #set flash message - make sure your recipe has a name, directions, total prep time, and at least one ingredient with a quantity
+        redirect to "/recipes/#{@recipe.id}/edit"
       else
-        flash[:alert] = "You cannot edit this recipe."
-        redirect to '/recipes'
+        @recipe.update(params[:recipe])
+        redirect to "/recipes/#{@recipe.id}"
       end
     else
-      redirect to '/login'
+      flash[:alert] = "You cannot edit this recipe."
+      redirect to '/recipes'
     end
   end
   

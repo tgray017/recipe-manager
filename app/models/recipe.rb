@@ -3,7 +3,7 @@ class Recipe < ActiveRecord::Base
   alias_attribute :user_id, :creator_id
   has_many :ingredients_recipes
   has_many :ingredients, through: :ingredients_recipes
-  accepts_nested_attributes_for :ingredients
+  #accepts_nested_attributes_for :ingredients
   
   
   # need to override this method provided by accepts_nested_attributes_for to avoid duplicating ingredients and creating empty ingredients
