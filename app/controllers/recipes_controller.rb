@@ -1,7 +1,6 @@
 class RecipesController < ApplicationController
 
   get '/recipes' do
-    @user = User.current_user(session) if User.logged_in?(session)
     erb :"recipes/index"
   end
 
@@ -11,10 +10,7 @@ class RecipesController < ApplicationController
   end
 
   get '/recipes/:id' do
-    @recipe = Recipe.find_by_id(params[:id])
-    @user = User.current_user(session) if User.logged_in?(session)
-
-    if !!@recipe
+    if !!current_recipe
       erb :"recipes/show"
     else
       flash[:alert] = "That recipe does not exist, try selecting a different recipe."
@@ -37,10 +33,8 @@ class RecipesController < ApplicationController
   end
 
   get '/recipes/:id/edit' do
-    @recipe = Recipe.find_by_id(params[:id])
-
     redirect_if_not_logged_in
-    if !!@recipe && User.current_user(session).recipes.include?(@recipe)
+    if !!current_recipe && current_user.recipes.include?(current_recipe)
       erb :"recipes/edit"
     else
       flash[:alert] = "You cannot edit this recipe."
@@ -49,16 +43,14 @@ class RecipesController < ApplicationController
   end
 
   patch '/recipes/:id' do
-    @recipe = Recipe.find_by_id(params[:id])
-
     redirect_if_not_logged_in
-    if !!@recipe && User.current_user(session).recipes.include?(@recipe)
+    if !!current_recipe && current_user.recipes.include?(current_recipe)
       if invalid_recipe?
         flash[:alert] = "Invalid recipe! Make sure your recipe has a name, directions, total prep time, and at least one ingredient with a quantity."
-        redirect to "/recipes/#{@recipe.id}/edit"
+        redirect to "/recipes/#{current_recipe.id}/edit"
       else
-        @recipe.update(params[:recipe])
-        redirect to "/recipes/#{@recipe.id}"
+        current_recipe.update(params[:recipe])
+        redirect to "/recipes/#{current_recipe.id}"
       end
     else
       flash[:alert] = "You cannot edit this recipe."
@@ -67,15 +59,13 @@ class RecipesController < ApplicationController
   end
 
   delete '/recipes/:id' do
-    @recipe = Recipe.find(params[:id])
-
     redirect_if_not_logged_in
-    if !!@recipe && User.current_user(session).recipes.include?(@recipe)
-      @recipe.destroy
+    if !!current_recipe && current_user.recipes.include?(current_recipe)
+      current_recipe.destroy
       redirect to "/recipes"
     else
       flash[:alert] = "You cannot edit this recipe."
-      redirect to "/recipes/#{@recipe.id}"
+      redirect to "/recipes/#{current_recipe.id}"
     end
   end
 

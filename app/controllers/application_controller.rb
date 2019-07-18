@@ -15,7 +15,15 @@ class ApplicationController < Sinatra::Base
 
   helpers do
     def current_user
-      @current_user ||= User.find(session[:user_id])
+      @current_user ||= User.find(session[:user_id]) if logged_in?
+    end
+
+    def selected_user
+      @selected_user = User.find_by_id(params[:id])
+    end
+
+    def current_recipe
+      @current_recipe ||= Recipe.find_by_id(params[:id])
     end
 
     def logged_in?

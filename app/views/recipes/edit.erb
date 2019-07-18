@@ -1,13 +1,13 @@
 <h3>Edit your recipe!</h3>
-<form action="/recipes/<%=@recipe.id%>" method="post">
+<form action="/recipes/<%=current_recipe.id%>" method="post">
   <input id="hidden" type="hidden" name="_method" value="patch">
-  <p><label for="recipe[name]">Recipe name: </label><input type="text" name="recipe[name]" value="<%=@recipe.name%>"></p>
+  <p><label for="recipe[name]">Recipe name: </label><input type="text" name="recipe[name]" value="<%=current_recipe.name%>"></p>
   <h4>Edit your ingredients</h4>
   <table id="ingredient_table">
     <th>Ingredient</th>
     <th>Quantity</th>
     <th>Unit</th>
-    <%@recipe.ingredients.each do |i|%>
+    <%current_recipe.ingredients.each do |i|%>
       <tr>
         <td><input type="text" name="recipe[ingredients_attributes][][name]" value="<%=i.name%>"></td>
         <td><input type="text" name="recipe[ingredients_attributes][][quantity]" value="<%=i.quantity%>"></td>
@@ -17,13 +17,13 @@
   </table>
   <button type="button" onclick="addIngredient()">Add ingredient</button>
 
-  
-  <p><label for="recipe[directions]">Directions: </label><textarea name="recipe[directions]" rows="10" cols="30"><%=@recipe.directions%></textarea></p>
-  <p><label for="recipe[total_prep_time]">Total Prep Time: </label><input type="text" name="recipe[total_prep_time]" value="<%=@recipe.total_prep_time%>"></p>
+
+  <p><label for="recipe[directions]">Directions: </label><textarea name="recipe[directions]" rows="10" cols="30"><%=current_recipe.directions%></textarea></p>
+  <p><label for="recipe[total_prep_time]">Total Prep Time: </label><input type="text" name="recipe[total_prep_time]" value="<%=current_recipe.total_prep_time%>"></p>
   <input type="submit" value="Update Recipe"><br><br>
 </form>
 
-<form action="/recipes/<%=@recipe.id%>" method="post">
+<form action="/recipes/<%=current_recipe.id%>" method="post">
   <input id="hidden" type="hidden" name="_method" value="delete">
   <input type="submit" value="Delete Recipe">
 </form>

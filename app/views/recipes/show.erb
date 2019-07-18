@@ -1,16 +1,16 @@
-<h3><%=@recipe.name%></h3>
-Total prep time: <%=@recipe.total_prep_time%><br/>
-<i>Recipe by: <a href="/users/<%=@recipe.creator.id%>"><%=@recipe.creator.username%></a></i>
+<h3><%=current_recipe.name%></h3>
+Total prep time: <%=current_recipe.total_prep_time%><br/>
+<i>Recipe by: <a href="/users/<%=current_recipe.creator.id%>"><%=current_recipe.creator.username%></a></i>
 
 <h4>Ingredients</h4>
 <ul>
-  <%@recipe.ingredients.each do |i|%>
+  <%current_recipe.ingredients.each do |i|%>
     <li><%=i.name%>, <%=i.quantity%> <%=i.unit%></li>
   <%end%>
 </ul>
 <h4>Directions</h4>
-<p><%=@recipe.directions%></p>
+<p><%=current_recipe.directions%></p>
 
-<%if !!@user && @recipe.creator == @user%>
-  <a href="/recipes/<%=@recipe.id%>/edit">Edit recipe</a>
+<%if !!current_user && current_recipe.creator == current_user%>
+  <a href="/recipes/<%=current_recipe.id%>/edit">Edit recipe</a>
 <%end%>

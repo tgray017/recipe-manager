@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
 
   get '/signup' do
-    if User.logged_in?(session)
+    if logged_in?
       redirect to '/recipes'
     else
       erb :"users/signup"
@@ -10,11 +10,9 @@ class UsersController < ApplicationController
 
   post '/signup' do
     if invalid_signup?
-      #set a flash message - please fill out all fields
       flash[:alert] = "Please fill out all fields to sign up."
       redirect to '/signup'
     elsif !!User.find_by(:username => params[:username])
-      #set a flash message - user already exists - please go to our login page if you already have an account
       flash[:alert] = "That username is taken. Please choose a different username or navigate to our login page if you have an account."
       redirect to '/signup'
     else
@@ -25,7 +23,7 @@ class UsersController < ApplicationController
   end
 
   get '/login' do
-    if User.logged_in?(session)
+    if logged_in?
       redirect to '/recipes'
     else
       erb :"users/login"
@@ -49,13 +47,12 @@ class UsersController < ApplicationController
   end
 
   get '/logout' do
-    session.clear if User.logged_in?(session)
+    session.clear if logged_in?
     redirect to '/login'
   end
 
   get '/users/:id' do
-    @user = User.find_by_id(params[:id])
-    if !!@user
+    if !!selected_user
       erb :"users/show"
     else
       flash[:alert] = "That user does not exist, try selecting a different user."
@@ -64,12 +61,11 @@ class UsersController < ApplicationController
   end
 
 
-  #### Helper methods ####
   helpers do
     def invalid_signup?
       params[:email].empty? || params[:username].empty? || params[:password].empty?
     end
-    
+
     def invalid_login?
       params[:username].empty? || params[:password].empty?
     end

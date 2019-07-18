@@ -1,6 +1,6 @@
-<%if !!@user%>
-  <h3>Welcome, <%=@user.username%>!</h3>
-  <a href="/users/<%=@user.id%>">See my recipes</a><br>
+<%if !!current_user%>
+  <h3>Welcome, <%=current_user.username%>!</h3>
+  <a href="/users/<%=current_user.id%>">See my recipes</a><br>
   <a href="/recipes/new">Create a new recipe</a><br>
   <a href="/logout">Log out</a>
 <%else%>
@@ -14,5 +14,3 @@
 Total prep time: <%=r.total_prep_time%><br/>
 <i>Recipe by: <a href="/users/<%=r.creator.id%>"><%=r.creator.username%></a></i>
 <%end%>
-
-
