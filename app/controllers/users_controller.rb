@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  
+
   get '/signup' do
     if User.logged_in?(session)
       redirect to '/recipes'
@@ -7,7 +7,7 @@ class UsersController < ApplicationController
       erb :"users/signup"
     end
   end
-  
+
   post '/signup' do
     if invalid_signup?
       #set a flash message - please fill out all fields
@@ -23,7 +23,7 @@ class UsersController < ApplicationController
       redirect to '/recipes'
     end
   end
-  
+
   get '/login' do
     if User.logged_in?(session)
       redirect to '/recipes'
@@ -31,7 +31,7 @@ class UsersController < ApplicationController
       erb :"users/login"
     end
   end
-  
+
   post '/login' do
     if invalid_login?
       flash[:alert] = "Please fill out all fields to log in."
@@ -47,12 +47,12 @@ class UsersController < ApplicationController
       end
     end
   end
-  
+
   get '/logout' do
     session.clear if User.logged_in?(session)
     redirect to '/login'
   end
-  
+
   get '/users/:id' do
     @user = User.find_by_id(params[:id])
     if !!@user
@@ -62,17 +62,18 @@ class UsersController < ApplicationController
       redirect to '/recipes'
     end
   end
-  
-  
+
+
   #### Helper methods ####
-  
-  def invalid_signup?
-    params[:email].empty? || params[:username].empty? || params[:password].empty?
+  helpers do
+    def invalid_signup?
+      params[:email].empty? || params[:username].empty? || params[:password].empty?
+    end
+    
+    def invalid_login?
+      params[:username].empty? || params[:password].empty?
+    end
   end
-  
-  def invalid_login?
-    params[:username].empty? || params[:password].empty?
-  end
-  
-  
+
+
 end
